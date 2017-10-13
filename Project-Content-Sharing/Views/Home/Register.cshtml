@@ -1,0 +1,268 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link href="~/CSS/Navbar.css" rel="stylesheet" />
+    <link href="~/CSS/Register.css" rel="stylesheet" />
+
+
+    <script>
+        $(function () {
+            $('.button-checkbox').each(function () {
+
+                // Settings
+                var $widget = $(this),
+                    $button = $widget.find('button'),
+                    $checkbox = $widget.find('input:checkbox'),
+                    color = $button.data('color'),
+                    settings = {
+                        on: {
+                            icon: 'glyphicon glyphicon-check'
+                        },
+                        off: {
+                            icon: 'glyphicon glyphicon-unchecked'
+                        }
+                    };
+
+                // Event Handlers
+                $button.on('click', function () {
+                    $checkbox.prop('checked', !$checkbox.is(':checked'));
+                    $checkbox.triggerHandler('change');
+                    updateDisplay();
+                });
+                $checkbox.on('change', function () {
+                    updateDisplay();
+                });
+
+                // Actions
+                function updateDisplay() {
+                    var isChecked = $checkbox.is(':checked');
+
+                    // Set the button's state
+                    $button.data('state', (isChecked) ? "on" : "off");
+
+                    // Set the button's icon
+                    $button.find('.state-icon')
+                        .removeClass()
+                        .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+                    // Update the button's color
+                    if (isChecked) {
+                        $button
+                            .removeClass('btn-default')
+                            .addClass('btn-' + color + ' active');
+                    }
+                    else {
+                        $button
+                            .removeClass('btn-' + color + ' active')
+                            .addClass('btn-default');
+                    }
+                }
+
+                // Initialization
+                function init() {
+
+                    updateDisplay();
+
+                    // Inject the icon if applicable
+                    if ($button.find('.state-icon').length == 0) {
+                        $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i>');
+                    }
+                }
+                init();
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- ----------NAVBAR----------------  -->
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Login dropdown</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><p class="navbar-text">Already have an account?</p></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+                        <ul id="login-dp" class="dropdown-menu">
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Login via
+                                        <div class="social-buttons">
+                                            <a href="#" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
+                                            <a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
+                                        </div>
+                                        or
+                                        <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                                            <div class="form-group">
+                                                <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                                                <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="sr-only" for="exampleInputPassword2">Password</label>
+                                                <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                                                <div class="help-block text-right"><a href="">Forget the password ?</a></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"> keep me logged-in
+                                                </label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="bottom text-center">
+                                        New here ? <a href="#"><b>Join Us</b></a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!-- -------------NAVBAR-------------  -->
+    <!-- ----------REGISTER----------------  -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+
+                @using (Html.BeginForm("Register", "Home", FormMethod.Post))
+                {
+
+                    @Html.AntiForgeryToken()
+                    <h2>Please Sign Up <small>It's free.</small></h2>
+                    <hr class="colorgraph">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+
+                                @Html.TextBox("UserName", null, new { @class = "form-control input-lg", @placeholder = "Kullanıcı Adı" })
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-group">
+
+                        @Html.TextBox("EmailAddress", null, new { @class = "form-control input-lg", @placeholder = "eposta adresi" })
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+
+                                @Html.Password("Password", null, new { @class = "form-control input-lg", @placeholder = "şifre" })
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                @Html.Password("PasswordAgain", null, new { @class = "form-control input-lg", @placeholder = "şifre tekrar" })
+                               </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-3 col-md-3">
+                            <span class="button-checkbox">
+                                
+                                <button type="button" class="btn" data-color="info" tabindex="7"> I Agree</button>
+                                @Html.CheckBox("TermsConditions",false, new { @class="hidden" })
+
+                            </span>
+                        </div>
+                        <div class="col-xs-8 col-sm-9 col-md-9">
+                            By clicking <strong class="label label-primary">Register</strong>, you agree to the <a href="#" data-toggle="modal" data-target="#t_and_c_m">Terms and Conditions</a> set out by this site, including our Cookie Use.
+                        </div>
+                    </div>
+
+                    <hr class="colorgraph">
+                    <div class="row">
+
+                        <div class="col-xs-12 col-md-6">
+                        <input class="btn btn-primary btn-block btn-lg" type="submit" name="name" value="Kayıt Ol" />
+                       
+                        </div>
+
+                    </div>
+                }
+
+
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel">Terms & Conditions</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel libero vel risus varius sodales. Mauris diam massa, mattis quis porttitor vel, egestas nec nisi. Phasellus auctor ultricies enim vitae venenatis. Aliquam consequat vel neque a rutrum. Duis auctor, tellus at sodales condimentum,
+                            ex magna porta libero, varius ultricies sem dui nec lectus. Quisque molestie, erat vitae pellentesque mattis, magna metus consequat dui,
+                            nec suscipit ante urna at erat. Proin purus sapien, commodo sed fringilla ac, pulvinar eget dolor. Phasellus est tellus, pretium at mauris a, pretium interdum justo. Quisque vel neque iaculis, finibus justo sed, imperdiet quam. Aenean semper egestas nisl quis volutpat. Aliquam vitae neque velit.
+                        </p>
+                        <p>
+                            Integer iaculis magna at convallis suscipit. Quisque eu sodales felis, a fringilla libero. Nunc dapibus urna porta, faucibus tellus ac,
+                            fermentum diam. Vestibulum placerat ipsum id felis suscipit vulputate. Proin pulvinar, augue at placerat lobortis, sapien lorem dictum erat, et dapibus lorem est at urna. Vivamus vel nulla accumsan, congue lectus sit amet, cursus leo. Suspendisse sagittis, metus a tincidunt commodo, purus quam ullamcorper neque, vitae hendrerit orci dolor a urna. Mauris rutrum lacus vel augue laoreet, ac mollis justo volutpat.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">I Agree</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- ----------REGISTER----------------  -->
+
+</body>
+</html>
