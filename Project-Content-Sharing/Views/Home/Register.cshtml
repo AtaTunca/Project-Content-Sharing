@@ -203,8 +203,10 @@
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6">
                             <div class="form-group">
+                               
                                 @Html.Password("PasswordAgain", null, new { @class = "form-control input-lg", @placeholder = "şifre tekrar" })
-                               </div>
+                              
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -212,7 +214,8 @@
                             <span class="button-checkbox">
                                 
                                 <button type="button" class="btn" data-color="info" tabindex="7"> I Agree</button>
-                                @Html.CheckBox("TermsConditions",false, new { @class="hidden" })
+                                @Html.CheckBox("TermsAndConditions", false, new { @class="hidden" })
+
 
                             </span>
                         </div>

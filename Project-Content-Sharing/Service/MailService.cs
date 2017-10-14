@@ -31,7 +31,7 @@ namespace Project_Content_Sharing.Service
 
 
 
-            c.EnableSsl = false;
+            c.EnableSsl = true;
             c.Credentials = new NetworkCredential("yazilim.sc301@gmail.com", "Wissen2017");
             c.Host = "smtp.gmail.com"; //gmail mail sunucusu
             c.Port = 587; // reject yada spam olmaması için 25 değil 587 portundan göndeririz. 
@@ -41,9 +41,10 @@ namespace Project_Content_Sharing.Service
                 c.Send(msg);
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                var error = e;
+                var error2 = e;
                 return false;
             }
 

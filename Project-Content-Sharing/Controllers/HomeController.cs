@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Project_Content_Sharing.Controllers
 {
@@ -42,8 +43,8 @@ namespace Project_Content_Sharing.Controllers
             [System.ComponentModel.DataAnnotations.Compare("Password")]
             public string PasswordAgain { get; set; }
 
-            
-            public bool Terms { get; set; }
+
+            public bool TermsAndConditions { get; set; }
 
         }
 
@@ -72,8 +73,55 @@ namespace Project_Content_Sharing.Controllers
 
             return View();
         }
+        public ActionResult Activate(string id)
+        {
+
+            using (UserAccountDBEntities db = new UserAccountDBEntities())
+            {
+                var user = db.UserTable.FirstOrDefault(x => x.ActivationCode == id);
+
+                if (user != null)
+                {
+                    user.IsEnabled = true;
+                    db.SaveChanges();
+                    return Redirect("/Home/Main");
+                }
+
+            }
+
+            return Redirect("/Home/Register");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (UserAccountDBEntities db = new UserAccountDBEntities())
+                {
+                    bool control = db.UserTable.Any(x => x.EmailAddress == model.EmailAddress && x.Password == model.Password && x.IsEnabled == true);
+
+                    if (control == true)
+                    {
+                        //oturum aç
+                        FormsAuthentication.SetAuthCookie(model.EmailAddress, true);
+
+                        return Redirect("/Account/Index");
+                    }
+                }
+
+                JsonMessageResult j = new JsonMessageResult();
+                j.IsSuccess = true;
+                j.Message = "Kullanıcı adı veya parola hatalı!";
+                j.RedirectUrl = "/Home/Main";
+
+                return Json(j);
+            }
 
 
+            return Json("Böyle bir Kullanıcı veya parola bulunamadı!");
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterVM model)
@@ -98,10 +146,10 @@ namespace Project_Content_Sharing.Controllers
 
                     JsonMessageResult j1 = new JsonMessageResult();
                     j1.IsSuccess = true;
-                    j1.Message = "Kullanıcı Kaydınız Yapıldı";
+                    j1.Message = "Kullanıcı Kaydınız Yapıldı.E-Mail Adresinize Doğrulama Linki Gönderildi!";
                     j1.RedirectUrl = "/account/login";
 
-                    var url = Path.Combine("http://localhost:1266/account/activate/", t.ActivationCode);
+                    var url = Path.Combine("http://localhost:62423/Home/activate/", t.ActivationCode);
 
                     MailService s = new MailService();
                     s.SendMessage(new MailTemplate { Subject = "Üyelik", To = model.EmailAddress, Message = "<a href=" + url + ">Üyeliği Aktif Et</a>" });
