@@ -17,17 +17,21 @@ namespace Project_Content_Sharing.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UserTable()
         {
-            this.UserRoleTable = new HashSet<UserRoleTable>();
+            this.ImgDB = new HashSet<ImgDB>();
+            this.Comment = new HashSet<Comment>();
         }
     
         public int Id { get; set; }
         public string UserName { get; set; }
         public string EmailAddress { get; set; }
         public string Password { get; set; }
+        public string ProfilePicRoute { get; set; }
         public string ActivationCode { get; set; }
         public bool IsEnabled { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserRoleTable> UserRoleTable { get; set; }
+        public virtual ICollection<ImgDB> ImgDB { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comment> Comment { get; set; }
     }
 }

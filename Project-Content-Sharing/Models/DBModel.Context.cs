@@ -13,10 +13,10 @@ namespace Project_Content_Sharing.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class UserAccountDBEntities : DbContext
+    public partial class ContentSharingEntities : DbContext
     {
-        public UserAccountDBEntities()
-            : base("name=UserAccountDBEntities")
+        public ContentSharingEntities()
+            : base("name=ContentSharingEntities")
         {
         }
     
@@ -25,8 +25,9 @@ namespace Project_Content_Sharing.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Comment> Comment { get; set; }
+        public virtual DbSet<ImgDB> ImgDB { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<UserRoleTable> UserRoleTable { get; set; }
         public virtual DbSet<UserTable> UserTable { get; set; }
     }
 }

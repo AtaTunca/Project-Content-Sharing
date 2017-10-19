@@ -12,19 +12,22 @@ namespace Project_Content_Sharing.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class UserRoleTable
+    public partial class ImgDB
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public UserRoleTable()
+        public ImgDB()
         {
-            this.UserTable = new HashSet<UserTable>();
+            this.Comment = new HashSet<Comment>();
         }
     
-        public int Id { get; set; }
+        public int ImageID { get; set; }
+        public int UserID { get; set; }
+        public int ImgVote { get; set; }
         public string Name { get; set; }
-        public string Aciklama { get; set; }
+        public string Route { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserTable> UserTable { get; set; }
+        public virtual ICollection<Comment> Comment { get; set; }
+        public virtual UserTable UserTable { get; set; }
     }
 }

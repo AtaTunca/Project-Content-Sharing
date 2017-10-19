@@ -1,19 +1,24 @@
 ﻿
 @{
-    Layout = null;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-<!DOCTYPE html>
+<h2>Index</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <div> 
-        asdfas
-        @ViewBag.Email
-    </div>
-</body>
-</html>
+
+@ViewBag.Email
+
+@using (Html.BeginForm("Upload", "Account", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+
+    @Html.TextBox("file", null, new { @type = "file", @multiple = false })
+
+    <input type="submit" name="name" value="Upload Meme" />
+}
+
+@foreach (var item in Model)
+{
+    <label>@item.Route</label>
+    <img style="height:200px; width:200px;" src="@item.Route" alt="@item.Name" />
+}

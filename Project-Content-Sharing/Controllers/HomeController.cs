@@ -1,10 +1,12 @@
 ﻿using Project_Content_Sharing.Models;
 using Project_Content_Sharing.Service;
 using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -63,6 +65,7 @@ namespace Project_Content_Sharing.Controllers
         public ActionResult Main()
         {
 
+
             return View();
         }
 
@@ -73,12 +76,113 @@ namespace Project_Content_Sharing.Controllers
 
             return View();
         }
-        public ActionResult Activate(string id)
+        public ActionResult PasswordReset()
+        {
+            return View();
+        }
+        public class CaptchaResponse
         {
 
-            using (UserAccountDBEntities db = new UserAccountDBEntities())
+            public bool Success { get; set; }
+
+            public List<string> ErrorCodes { get; set; }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(PasswordResetVM model)
+        {
+
+            var response = Request["g-recaptcha-response"];
+            const string secret = "6LcjsTQUAAAAALUtX2jw6R8y7oEkK8zHtBolrLli";
+            //Kendi Secret keyinizle değiştirin.
+
+            //webclient recaptcha test
+            var client = new WebClient();
+            var reply =
+                client.DownloadString(
+                    string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secret, response));
+
+            var captchaResponse = JsonConvert.DeserializeObject<CaptchaResponse>(reply);
+
+            if (ModelState.IsValid)
             {
-                var user = db.UserTable.FirstOrDefault(x => x.ActivationCode == id);
+                ContentSharingEntities db = new ContentSharingEntities();
+                var usr = db.UserTable.FirstOrDefault(x => x.ActivationCode == model.ActivationCode);
+
+                if (usr != null)
+                {
+                    if (!captchaResponse.Success)
+                    {
+                        ViewBag.Message = "Lütfen güvenliği doğrulayınız.";
+
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Güvenlik başarıyla doğrulanmıştır.";
+                        usr.Password = model.Password;
+                        db.SaveChanges();
+                    }
+                }
+            }
+
+            return View();
+        }
+        public ActionResult ResetPassword(string code)
+        {
+            ContentSharingEntities db = new ContentSharingEntities();
+            var usr = db.UserTable.FirstOrDefault(x => x.ActivationCode == code);
+
+            if (usr != null)
+            {
+                ViewBag.Code = usr.ActivationCode;
+                return View();
+            }
+
+            return Redirect("/account/login");
+        }
+        public class PasswordResetVM
+        {
+            [Required]
+            [MinLength(8)]
+            [MaxLength(12)]
+            public string Password { get; set; }
+
+            [System.ComponentModel.DataAnnotations.Compare("Password")]
+            public string PasswordAgain { get; set; }
+
+            public string ActivationCode { get; set; }
+
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PasswordReset(string Email)
+        {
+            ContentSharingEntities db = new ContentSharingEntities();
+            var usr = db.UserTable.FirstOrDefault(x => x.EmailAddress == Email && x.IsEnabled == true);
+
+            var url = Path.Combine("http://localhost:62423/Home/resetpassword/", usr.ActivationCode);
+
+            MailTemplate t = new MailTemplate();
+            t.To = Email;
+            t.Message = "<a href=" + url + ">Parola Resetle</a>";
+            t.Subject = "Parola Değişikliği";
+
+            MailService service = new MailService();
+            service.SendMessage(t);
+
+            ViewBag.Message = "Lütfen eposta hesabınızı kontrol ediniz";
+
+            return View();
+        }
+
+        public ActionResult Activate(string code)
+        {
+
+            using (ContentSharingEntities db = new ContentSharingEntities())
+            {
+                var user = db.UserTable.FirstOrDefault(x => x.ActivationCode == code);
 
                 if (user != null)
                 {
@@ -98,7 +202,7 @@ namespace Project_Content_Sharing.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (UserAccountDBEntities db = new UserAccountDBEntities())
+                using (ContentSharingEntities db = new ContentSharingEntities())
                 {
                     bool control = db.UserTable.Any(x => x.EmailAddress == model.EmailAddress && x.Password == model.Password && x.IsEnabled == true);
 
@@ -139,22 +243,41 @@ namespace Project_Content_Sharing.Controllers
 
 
 
-                using (UserAccountDBEntities db = new UserAccountDBEntities())
+                using (ContentSharingEntities db = new ContentSharingEntities())
                 {
-                    db.UserTable.Add(t);
-                    db.SaveChanges();
 
-                    JsonMessageResult j1 = new JsonMessageResult();
-                    j1.IsSuccess = true;
-                    j1.Message = "Kullanıcı Kaydınız Yapıldı.E-Mail Adresinize Doğrulama Linki Gönderildi!";
-                    j1.RedirectUrl = "/account/login";
+                    var a = (from k in db.UserTable where t.EmailAddress == k.EmailAddress select k).Any();
 
-                    var url = Path.Combine("http://localhost:62423/Home/activate/", t.ActivationCode);
+                    if (a == false)
+                    {
+                        db.UserTable.Add(t);
+                        db.SaveChanges();
 
-                    MailService s = new MailService();
-                    s.SendMessage(new MailTemplate { Subject = "Üyelik", To = model.EmailAddress, Message = "<a href=" + url + ">Üyeliği Aktif Et</a>" });
+                        JsonMessageResult j1 = new JsonMessageResult();
+                        j1.IsSuccess = true;
+                        j1.Message = "Kullanıcı Kaydınız Yapıldı.E-Mail Adresinize Doğrulama Linki Gönderildi!";
+                        j1.RedirectUrl = "/account/login";
 
-                    return Json(j1);
+                        var url = Path.Combine("http://localhost:62423/Home/activate/", t.ActivationCode);
+
+                        MailService s = new MailService();
+                        s.SendMessage(new MailTemplate { Subject = "Üyelik", To = model.EmailAddress, Message = "<a href=" + url + ">Üyeliği Aktif Et</a>" });
+
+                        return Json(j1);
+                    }
+                    else
+                    {
+                        JsonMessageResult j2 = new JsonMessageResult();
+                        j2.IsSuccess = false;
+                        j2.Message = "Email Adresi zaten mevcut";
+                        j2.RedirectUrl = null;
+
+                        return Json(j2);
+                    }
+                   
+
+
+
                 }
             }
 

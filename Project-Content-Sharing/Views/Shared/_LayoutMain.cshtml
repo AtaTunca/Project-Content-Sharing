@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link href="~/CSS/Navbar.css" rel="stylesheet" />
+    <link href="~/CSS/Register.css" rel="stylesheet" />
+    
+    
+</head>
+<body>
+    <div>
+
+        @{Html.RenderPartial("_Navbar"); }
+
+        
+
+        @RenderBody()
+
+
+        <script src="~/JSFolder/RegisterJS.js"></script>
+       
+
+    </div>
+</body>
+</html>

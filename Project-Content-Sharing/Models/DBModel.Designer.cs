@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'c:\users\atatu\documents\visual studio 2017\Projects\Project-Content-Sharing\Project-Content-Sharing\Models\UserData.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\atatu\documents\visual studio 2017\Projects\Project-Content-Sharing\Project-Content-Sharing\Models\DBModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
