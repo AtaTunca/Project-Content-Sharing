@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+
+
+
+<div class="container">
+    <div class="col-md-12">
+        <div class="col-md-2" style="
+    margin-top: 48px">
+            <div style="float:left">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation" class="active"><a href="/Account/Settings">Settings</a></li>
+                    <li role="presentation" ><a href="/Account/Password">Password</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+
+
+                @using (Html.BeginForm("Settings", "Account", FormMethod.Post, new { @class = "Form-Horizontal" }))
+                {
+
+                    @Html.AntiForgeryToken()
+                    <div id="legend">
+                        <legend style="font-size:xx-large" class="">Parola</legend>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <!-- Username -->
+                            <label c for="username">Kullanıcı Adı</label>
+                            <div class="controls">
+                                @Html.Password("UserName", null, new { @class = "form-control input-xlarge", @type = "textbox", @id = "username", @name = "password",@value=ViewBag.UserName })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!-- Password-->
+                            <label for="password">Email Adresi</label>
+                            <div class="controls">
+                                @Html.Password("EmailAddress", null, new { @class = "form-control input-xlarge", @type = "textbox", @id = "username", @name = "password",@value=ViewBag.EmailAdress})
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <!-- Button -->
+                            <div class="controls">
+                                <button type="submit" class="btn btn-success">Kaydet</button>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>

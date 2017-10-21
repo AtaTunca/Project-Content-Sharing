@@ -11,7 +11,8 @@ namespace Project_Content_Sharing.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class UserTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,8 +23,12 @@ namespace Project_Content_Sharing.Models
         }
     
         public int Id { get; set; }
+        [Required(ErrorMessage = "Please enter UserName.")]
         public string UserName { get; set; }
+        [Required(ErrorMessage = "Please enter E-Mail Adress.")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string EmailAddress { get; set; }
+        [Required(ErrorMessage = "Please enter Password.")]
         public string Password { get; set; }
         public string ProfilePicRoute { get; set; }
         public string ActivationCode { get; set; }

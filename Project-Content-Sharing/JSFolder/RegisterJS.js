@@ -1,4 +1,5 @@
 ﻿$(function () {
+    
     $('.button-checkbox').each(function () {
 
         // Settings
@@ -50,16 +51,22 @@
             }
         }
 
+       
+
         // Initialization
         function init() {
 
             updateDisplay();
 
             // Inject the icon if applicable
-            if ($button.find('.state-icon').length == 0) {
+            if ($button.find('.state-icon').length === 0) {
                 $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i>');
             }
         }
         init();
     });
 });
+$("#Upload").click(function () {
+    window.location = "/Account/Hot";
+
+})

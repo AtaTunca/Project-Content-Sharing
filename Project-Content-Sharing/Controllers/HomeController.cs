@@ -17,10 +17,11 @@ namespace Project_Content_Sharing.Controllers
     {
         public class LoginVM
         {
-            [Required]
-            public string EmailAddress { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Please enter E-Mail Adress.")]
+            [EmailAddress(ErrorMessage = "Invalid Email Address")]
+            public string EmailAddress { get; set; }
+            [Required(ErrorMessage = "Please enter Password.")]
             public string Password { get; set; }
 
             public bool RememberMe { get; set; }
@@ -211,7 +212,7 @@ namespace Project_Content_Sharing.Controllers
                         //oturum aç
                         FormsAuthentication.SetAuthCookie(model.EmailAddress, true);
 
-                        return Redirect("/Account/Index");
+                        return Redirect("/Account/Hot");
                     }
                 }
 

@@ -10,14 +10,14 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <img style="width:70px;" src="~/Pictures/BrainParty_LogoForBlog.png" /> 
+            <img style="width:70px;" src="~/Pictures/BrainParty_LogoForBlog.png" />
 
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Ateşli</a></li>
-                <li ><a href="#">Güzel</a></li>
+                <li><a href="#">Güzel</a></li>
                 <li><a href="#">Taze</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bişeyler <span class="caret"></span></a>
@@ -33,27 +33,35 @@
                 </li>
             </ul>
 
-              @if (Request.IsAuthenticated)
-              {
+            @if (Request.IsAuthenticated)
+            {
 
                 <ul class="nav navbar-nav navbar-right">
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
+                            <li><a href="#">My Profile</a></li>
+                            <li><a href="/Account/Settings">Settings</a></li>
                             <li><a href="/Account/LogOut">LogOut</a></li>
-                           
+
 
                         </ul>
                     </li>
+
+                        <li>
+                            <button  id="Upload" type="button" class="btn btn-primary btn3d">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> &nbsp;&nbsp;Yükle
+                            </button>
+                       
+                    </li>
+                   
+                    
+
                 </ul>
-              }
-              else
-              {
+            }
+            else
+            {
                 <ul class="nav navbar-nav navbar-right">
 
                     <li class="dropdown">
@@ -80,12 +88,15 @@
 
 
                                                 @Html.TextBox("EmailAddress", null, new { @class = "form-control", @placeholder = "Email Adresi" })
+                                                @Html.ValidationMessage("EmailAddress")
                                             </div>
                                             <div class="form-group">
                                                 <label class="sr-only" for="exampleInputPassword2">Password</label>
 
 
                                                 @Html.Password("Password", null, new { @class = "form-control", @placeholder = "Parola" })
+                                               @Html.ValidationMessage("Password")
+                                                <p style="color:red">@ViewBag.ErrorMessage</p>
                                                 <div class="help-block text-right"><a href="/home/passwordreset">Forget the password ?</a></div>
                                             </div>
                                             <div class="form-group">
@@ -99,15 +110,15 @@
                                         }
                                     </div>
                                     <div class="bottom text-center">
-                                        New here Honey? <a href="~/Home/Register"><b>Join Us</b></a>
+                                        New here? <a href="~/Home/Register"><b>Join Us</b></a>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                     </li>
                 </ul>
-              }
-              
+            }
+
 
 
         </div><!-- /.navbar-collapse -->
