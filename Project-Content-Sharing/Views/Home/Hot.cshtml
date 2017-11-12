@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Hot";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+
+<link href="~/CSS/Article.css" rel="stylesheet" />
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<script type="text/javascript" src="js/noty/packaged/jquery.noty.packaged.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        
+        $("#hot").addClass("active");
+
+        $("button").click(function () {
+
+            Command: toastr["error"]("You have to login for that operation!", "Error")
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+        });
+
+        
+    });
+
+
+</script>
+
+
+
+
+@foreach (var item in Model)
+{
+
+
+    <div id="@item.ImgID" style="position:center" class="container">
+        <div class="span6">
+            <div class="clear"></div>
+            <h3>@item.Description</h3>
+            <img style="height:500px; width:500px;" src="@item.Route" />
+            <div>
+                <a href="/Home/Comment?id=@item.ImgID" style="color:grey"><span>@item.VoteNumber</span> Points</a>
+
+                <a href="/Home/Comment?id=@item.ImgID" style="color:grey"><span>@item.CommentNumber</span> Comments</a>
+                <div class="tags">
+
+                    <button id="@item.ImgID Upvote" type="button" class="btn btn-primary btn-lg btn3d"><span id="@item.ImgID" class="glyphicon glyphicon-arrow-up"></span></button>
+
+
+                    <button id="@item.ImgID Downvote" type="button" class="btn btn-danger btn-lg btn3d"><span id="@item.ImgID" class="glyphicon glyphicon-arrow-down"></span></button>
+
+
+
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+}

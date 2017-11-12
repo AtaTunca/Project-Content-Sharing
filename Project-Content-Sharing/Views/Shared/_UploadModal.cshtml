@@ -1,0 +1,59 @@
+﻿
+
+<div class="modal fade" id="betaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div></div>
+                <h3 class="modal-title" id="exampleModalLabel">Yayınınıza bir başlık verin</h3>
+
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                Doğru, açıklayıcı bir başlık kişilerin yayınınızı keşfetmesine yardımcı olabilir.
+
+            </div>
+            <div class="modal-body">
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="col-md-3"><img id="image" style="width:250px;height:250px;" class="logoicon"  alt="App Logo" /></div>
+
+                        <div class="col-md-3">
+                           
+                            
+                            @using (Html.BeginForm("Upload", "Account", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput">Açıklayıcı Başlık</label>
+                                   @Html.TextBox("file", null, new { @type = "file", @id = "fileload" })
+                                    @*@Html.TextBox("file", null, new {@type="file",@multiple=true })*@
+                                    @Html.TextArea("description", null, new { @type = "text", @id = "text", @class = "form-control", @rows = "3", @placeholder = "Yayını açıklayan bir yazı yaz" })
+                                </div>
+                                    <input type="submit" name="name" class="btn btn-primary" value="Yükle" />
+                                    }
+
+                                </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+</div>

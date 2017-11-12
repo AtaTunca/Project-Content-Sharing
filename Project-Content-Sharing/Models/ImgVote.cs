@@ -12,17 +12,12 @@ namespace Project_Content_Sharing.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Comment
+    public partial class ImgVote
     {
-        public int CommentID { get; set; }
-        public int ImageID { get; set; }
-        public Nullable<int> SubCommentID { get; set; }
-        public int VoteComment { get; set; }
-        public string CommentText { get; set; }
-        public string CommentUrl { get; set; }
+        public int ImgVoteID { get; set; }
         public int UserID { get; set; }
+        public int ImgID { get; set; }
     
         public virtual ImgDB ImgDB { get; set; }
-        public virtual UserTable UserTable { get; set; }
     }
 }

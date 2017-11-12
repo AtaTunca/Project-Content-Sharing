@@ -4,28 +4,35 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ContentSharingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ContentSharingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="CommentID" />
           </Key>
           <Property Name="CommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ImageID" Type="int" Nullable="false" />
-          <Property Name="SubCommentID" Type="int" Nullable="false" />
+          <Property Name="SubCommentID" Type="int" />
           <Property Name="VoteComment" Type="int" Nullable="false" />
           <Property Name="CommentText" Type="text" Nullable="false" />
-          <Property Name="CommentUrl" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CommentUrl" Type="nvarchar" MaxLength="50" />
           <Property Name="UserID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ImgDB">
           <Key>
-            <PropertyRef Name="ImageID" />
+            <PropertyRef Name="ImgID" />
           </Key>
-          <Property Name="ImageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImgID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="ImgVote" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Route" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ImgVote">
+          <Key>
+            <PropertyRef Name="ImgVoteID" />
+          </Key>
+          <Property Name="ImgVoteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ImgID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -43,7 +50,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="EmailAddress" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="40" Nullable="false" />
           <Property Name="ProfilePicRoute" Type="nvarchar" MaxLength="50" />
           <Property Name="ActivationCode" Type="nvarchar" MaxLength="200" Nullable="false" />
@@ -54,7 +61,7 @@
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ImgDB">
-              <PropertyRef Name="ImageID" />
+              <PropertyRef Name="ImgID" />
             </Principal>
             <Dependent Role="Comment">
               <PropertyRef Name="ImageID" />
@@ -85,9 +92,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ImgVote_ImgDB">
+          <End Role="ImgDB" Type="Self.ImgDB" Multiplicity="1" />
+          <End Role="ImgVote" Type="Self.ImgVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImgDB">
+              <PropertyRef Name="ImgID" />
+            </Principal>
+            <Dependent Role="ImgVote">
+              <PropertyRef Name="ImgID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ContentSharingModelStoreContainer">
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImgDB" EntityType="Self.ImgDB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImgVote" EntityType="Self.ImgVote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Comment_ImgDB" Association="Self.FK_Comment_ImgDB">
@@ -102,8 +122,13 @@
             <End Role="UserTable" EntitySet="UserTable" />
             <End Role="ImgDB" EntitySet="ImgDB" />
           </AssociationSet>
+          <AssociationSet Name="FK_ImgVote_ImgDB" Association="Self.FK_ImgVote_ImgDB">
+            <End Role="ImgDB" EntitySet="ImgDB" />
+            <End Role="ImgVote" EntitySet="ImgVote" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ContentSharingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -113,25 +138,34 @@
           </Key>
           <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ImageID" Type="Int32" Nullable="false" />
-          <Property Name="SubCommentID" Type="Int32" Nullable="false" />
+          <Property Name="SubCommentID" Type="Int32" />
           <Property Name="VoteComment" Type="Int32" Nullable="false" />
           <Property Name="CommentText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CommentUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="ImgDB" Relationship="Self.FK_Comment_ImgDB" FromRole="Comment" ToRole="ImgDB" />
+          <Property Name="CommentUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="UserTable" Relationship="ContentSharingModel.FK_Comment_UserTable" FromRole="Comment" ToRole="UserTable" />
+          <NavigationProperty Name="ImgDB" Relationship="Self.FK_Comment_ImgDB" FromRole="Comment" ToRole="ImgDB" />
+          <NavigationProperty Name="UserTable" Relationship="Self.FK_Comment_UserTable" FromRole="Comment" ToRole="UserTable" />
         </EntityType>
         <EntityType Name="ImgDB">
           <Key>
-            <PropertyRef Name="ImageID" />
+            <PropertyRef Name="ImgID" />
           </Key>
-          <Property Name="ImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImgID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="ImgVote" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Route" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_ImgDB" FromRole="ImgDB" ToRole="Comment" />
           <NavigationProperty Name="UserTable" Relationship="Self.FK_ImgDB_UserTable" FromRole="ImgDB" ToRole="UserTable" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Route" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ImgVote" Relationship="Self.FK_ImgVote_ImgDB" FromRole="ImgDB" ToRole="ImgVote" />
+        </EntityType>
+        <EntityType Name="ImgVote">
+          <Key>
+            <PropertyRef Name="ImgVoteID" />
+          </Key>
+          <Property Name="ImgVoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ImgID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ImgDB" Relationship="Self.FK_ImgVote_ImgDB" FromRole="ImgVote" ToRole="ImgDB" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -149,23 +183,35 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EmailAddress" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ProfilePicRoute" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ImgDB" Relationship="Self.FK_ImgDB_UserTable" FromRole="UserTable" ToRole="ImgDB" />
-          <Property Name="ActivationCode" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ActivationCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Comment" Relationship="ContentSharingModel.FK_Comment_UserTable" FromRole="UserTable" ToRole="Comment" />
+          <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_UserTable" FromRole="UserTable" ToRole="Comment" />
+          <NavigationProperty Name="ImgDB" Relationship="Self.FK_ImgDB_UserTable" FromRole="UserTable" ToRole="ImgDB" />
         </EntityType>
         <Association Name="FK_Comment_ImgDB">
           <End Role="ImgDB" Type="Self.ImgDB" Multiplicity="1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ImgDB">
-              <PropertyRef Name="ImageID" />
+              <PropertyRef Name="ImgID" />
             </Principal>
             <Dependent Role="Comment">
               <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_UserTable">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -181,63 +227,76 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ContentSharingEntities" annotation:LazyLoadingEnabled="true">
+        <Association Name="FK_ImgVote_ImgDB">
+          <End Role="ImgDB" Type="Self.ImgDB" Multiplicity="1" />
+          <End Role="ImgVote" Type="Self.ImgVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImgDB">
+              <PropertyRef Name="ImgID" />
+            </Principal>
+            <Dependent Role="ImgVote">
+              <PropertyRef Name="ImgID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ContentSharingEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Comment" EntityType="Self.Comment" />
           <EntitySet Name="ImgDB" EntityType="Self.ImgDB" />
+          <EntitySet Name="ImgVote" EntityType="Self.ImgVote" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="UserTable" EntityType="Self.UserTable" />
           <AssociationSet Name="FK_Comment_ImgDB" Association="Self.FK_Comment_ImgDB">
             <End Role="ImgDB" EntitySet="ImgDB" />
             <End Role="Comment" EntitySet="Comment" />
           </AssociationSet>
+          <AssociationSet Name="FK_Comment_UserTable" Association="Self.FK_Comment_UserTable">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
           <AssociationSet Name="FK_ImgDB_UserTable" Association="Self.FK_ImgDB_UserTable">
             <End Role="UserTable" EntitySet="UserTable" />
             <End Role="ImgDB" EntitySet="ImgDB" />
           </AssociationSet>
-          <AssociationSet Name="FK_Comment_UserTable" Association="ContentSharingModel.FK_Comment_UserTable">
-            <End Role="UserTable" EntitySet="UserTable" />
-            <End Role="Comment" EntitySet="Comment" />
+          <AssociationSet Name="FK_ImgVote_ImgDB" Association="Self.FK_ImgVote_ImgDB">
+            <End Role="ImgDB" EntitySet="ImgDB" />
+            <End Role="ImgVote" EntitySet="ImgVote" />
           </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_Comment_UserTable">
-          <End Type="ContentSharingModel.UserTable" Role="UserTable" Multiplicity="1" />
-          <End Type="ContentSharingModel.Comment" Role="Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserTable">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Comment">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ContentSharingModelStoreContainer" CdmEntityContainer="ContentSharingEntities">
+        <EntityContainerMapping StorageEntityContainer="ContentSharingModelStoreContainer" CdmEntityContainer="ContentSharingEntities1">
           <EntitySetMapping Name="Comment">
             <EntityTypeMapping TypeName="ContentSharingModel.Comment">
               <MappingFragment StoreEntitySet="Comment">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="CommentID" ColumnName="CommentID" />
                 <ScalarProperty Name="ImageID" ColumnName="ImageID" />
                 <ScalarProperty Name="SubCommentID" ColumnName="SubCommentID" />
                 <ScalarProperty Name="VoteComment" ColumnName="VoteComment" />
                 <ScalarProperty Name="CommentText" ColumnName="CommentText" />
                 <ScalarProperty Name="CommentUrl" ColumnName="CommentUrl" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ImgDB">
             <EntityTypeMapping TypeName="ContentSharingModel.ImgDB">
               <MappingFragment StoreEntitySet="ImgDB">
-                <ScalarProperty Name="Route" ColumnName="Route" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="ImgID" ColumnName="ImgID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ImgVote" ColumnName="ImgVote" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImgVote">
+            <EntityTypeMapping TypeName="ContentSharingModel.ImgVote">
+              <MappingFragment StoreEntitySet="ImgVote">
+                <ScalarProperty Name="ImgVoteID" ColumnName="ImgVoteID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ImgID" ColumnName="ImgID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -255,13 +314,13 @@
           <EntitySetMapping Name="UserTable">
             <EntityTypeMapping TypeName="ContentSharingModel.UserTable">
               <MappingFragment StoreEntitySet="UserTable">
-                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
-                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="ProfilePicRoute" ColumnName="ProfilePicRoute" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

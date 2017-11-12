@@ -18,16 +18,18 @@ namespace Project_Content_Sharing.Models
         public ImgDB()
         {
             this.Comment = new HashSet<Comment>();
+            this.ImgVote = new HashSet<ImgVote>();
         }
     
-        public int ImageID { get; set; }
+        public int ImgID { get; set; }
         public int UserID { get; set; }
-        public int ImgVote { get; set; }
-        public string Name { get; set; }
+        public string Description { get; set; }
         public string Route { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment { get; set; }
         public virtual UserTable UserTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ImgVote> ImgVote { get; set; }
     }
 }

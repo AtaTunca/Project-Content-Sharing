@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Comment";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
+
+<div  style="position:center" class="container">
+    <div class="span6">
+        <div class="clear"></div>
+        <h3>@ViewBag.Description</h3>
+        <img style="height:565px; width:565px;" src="@ViewBag.Route" />
+        <div>
+
+            <a href="/Account/Comment?id=@ViewBag.ID" style="color:grey"><span>@ViewBag.Point</span> Points</a>
+            <a href="/Account/Comment?id=@ViewBag.ID" style="color:grey"><span>@ViewBag.Comment</span> Comments</a>
+            
+            <div class="container">
+                <div class="row">
+                    <h3>Status Upload Snipp</h3>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="widget-area no-padding blank">
+                            <div class="status-upload">
+                                @using (Html.BeginForm("PostComment", "Account", FormMethod.Post))
+                                {
+                                    @Html.TextArea("Comment","",new { @placeholder = "Comment Here!" })
+                                    @Html.TextBox("ImageID",(int)ViewBag.ID,new { @style = "display: none;" })
+
+
+                                    <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i>Post</button>
+                                }
+                                
+                            </div><!-- Status Upload  -->
+                        </div><!-- Widget Area -->
+                    </div>
+
+                </div>
+            </div>
+
+
+@foreach (var item in Model)
+{
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p></p>
+                    </div><!-- /col-sm-12 -->
+                </div><!-- /row -->
+                <div class="row">
+                    <div class="col-sm-1">
+                        <div class="thumbnail">
+                            <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                        </div><!-- /thumbnail -->
+                    </div><!-- /col-sm-1 -->
+                    <div class="col-sm-5">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <strong>@item.UserName</strong> <span class="text-muted"></span>
+                            </div>
+                            <div class="panel-body">
+                                @item.CommentText
+                            </div><!-- /panel-body -->
+                        </div><!-- /panel panel-default -->
+                    </div><!-- /col-sm-5 -->
+                </div><!-- /row -->
+            </div><!-- /container -->
+
+}
+
+
+        </div>
+        <hr>
+    </div>
+</div>

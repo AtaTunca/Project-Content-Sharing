@@ -13,10 +13,10 @@ namespace Project_Content_Sharing.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ContentSharingEntities : DbContext
+    public partial class ContentSharingEntities1 : DbContext
     {
-        public ContentSharingEntities()
-            : base("name=ContentSharingEntities")
+        public ContentSharingEntities1()
+            : base("name=ContentSharingEntities1")
         {
         }
     
@@ -27,6 +27,7 @@ namespace Project_Content_Sharing.Models
     
         public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<ImgDB> ImgDB { get; set; }
+        public virtual DbSet<ImgVote> ImgVote { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<UserTable> UserTable { get; set; }
     }

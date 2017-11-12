@@ -66,7 +66,6 @@ namespace Project_Content_Sharing.Controllers
         public ActionResult Main()
         {
 
-
             return View();
         }
 
@@ -107,7 +106,7 @@ namespace Project_Content_Sharing.Controllers
 
             if (ModelState.IsValid)
             {
-                ContentSharingEntities db = new ContentSharingEntities();
+                ContentSharingEntities1 db = new ContentSharingEntities1();
                 var usr = db.UserTable.FirstOrDefault(x => x.ActivationCode == model.ActivationCode);
 
                 if (usr != null)
@@ -130,7 +129,7 @@ namespace Project_Content_Sharing.Controllers
         }
         public ActionResult ResetPassword(string code)
         {
-            ContentSharingEntities db = new ContentSharingEntities();
+            ContentSharingEntities1 db = new ContentSharingEntities1();
             var usr = db.UserTable.FirstOrDefault(x => x.ActivationCode == code);
 
             if (usr != null)
@@ -160,7 +159,7 @@ namespace Project_Content_Sharing.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult PasswordReset(string Email)
         {
-            ContentSharingEntities db = new ContentSharingEntities();
+            ContentSharingEntities1 db = new ContentSharingEntities1();
             var usr = db.UserTable.FirstOrDefault(x => x.EmailAddress == Email && x.IsEnabled == true);
 
             var url = Path.Combine("http://localhost:62423/Home/resetpassword/", usr.ActivationCode);
@@ -181,7 +180,7 @@ namespace Project_Content_Sharing.Controllers
         public ActionResult Activate(string code)
         {
 
-            using (ContentSharingEntities db = new ContentSharingEntities())
+            using (ContentSharingEntities1 db = new ContentSharingEntities1())
             {
                 var user = db.UserTable.FirstOrDefault(x => x.ActivationCode == code);
 
@@ -203,7 +202,7 @@ namespace Project_Content_Sharing.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (ContentSharingEntities db = new ContentSharingEntities())
+                using (ContentSharingEntities1 db = new ContentSharingEntities1())
                 {
                     bool control = db.UserTable.Any(x => x.EmailAddress == model.EmailAddress && x.Password == model.Password && x.IsEnabled == true);
 
@@ -244,7 +243,7 @@ namespace Project_Content_Sharing.Controllers
 
 
 
-                using (ContentSharingEntities db = new ContentSharingEntities())
+                using (ContentSharingEntities1 db = new ContentSharingEntities1())
                 {
 
                     var a = (from k in db.UserTable where t.EmailAddress == k.EmailAddress select k).Any();
@@ -288,6 +287,153 @@ namespace Project_Content_Sharing.Controllers
             j.RedirectUrl = null;
 
             return Json(j);
+        }
+        public ActionResult Hot()
+        {
+            ContentSharingEntities1 db = new ContentSharingEntities1();
+
+
+            var model2 = db.ImgDB.ToList();
+
+
+            List<ImageDBList> model = new List<ImageDBList>(model2.Count);
+
+            for (int i = 0; i < model2.Count; i++)
+            {
+
+                ImageDBList List = new ImageDBList()
+                {
+                    ImgID = model2[i].ImgID,
+                    UserID = model2[i].UserID,
+                    Route = model2[i].Route,
+                    Description = model2[i].Description,
+                    CommentNumber = model2[i].Comment.Count(),
+                    VoteNumber = model2[i].ImgVote.Count
+                };
+
+                if (List.VoteNumber > 7)
+                {
+                    model.Add(List);
+                }
+
+
+            }
+
+
+
+            return View(model);
+        }
+        public ActionResult Fresh()
+        {
+            ContentSharingEntities1 db = new ContentSharingEntities1();
+
+
+            var model2 = db.ImgDB.ToList();
+
+
+            List<ImageDBList> model = new List<ImageDBList>(model2.Count);
+
+            for (int i = 0; i < model2.Count; i++)
+            {
+
+                ImageDBList List = new ImageDBList()
+                {
+                    ImgID = model2[i].ImgID,
+                    UserID = model2[i].UserID,
+                    Route = model2[i].Route,
+                    Description = model2[i].Description,
+                    CommentNumber = model2[i].Comment.Count(),
+                    VoteNumber = model2[i].ImgVote.Count
+                };
+
+                if (List.VoteNumber < 5)
+                {
+                    model.Add(List);
+                }
+
+
+            }
+
+
+
+            return View(model);
+        }
+        public ActionResult Trending()
+        {
+            ContentSharingEntities1 db = new ContentSharingEntities1();
+
+
+            var model2 = db.ImgDB.ToList();
+
+
+            List<ImageDBList> model = new List<ImageDBList>(model2.Count);
+
+            for (int i = 0; i < model2.Count; i++)
+            {
+
+                ImageDBList List = new ImageDBList()
+                {
+                    ImgID = model2[i].ImgID,
+                    UserID = model2[i].UserID,
+                    Route = model2[i].Route,
+                    Description = model2[i].Description,
+                    CommentNumber = model2[i].Comment.Count(),
+                    VoteNumber = model2[i].ImgVote.Count
+                };
+
+                if (List.VoteNumber > 5)
+                {
+                    model.Add(List);
+                }
+
+
+            }
+
+
+
+            return View(model);
+        }
+        public ActionResult Comment(string id)
+        {
+            int newid = Convert.ToInt32(id);
+
+            ContentSharingEntities1 DB = new ContentSharingEntities1();
+
+            List<Comments> Comment = new List<Comments>();
+
+
+            var data = (from d in DB.ImgDB where d.ImgID == newid select d).First();
+
+            ViewBag.ID = data.ImgID;
+            ViewBag.Route = data.Route;
+            ViewBag.Description = data.Description;
+            ViewBag.Point = data.ImgVote.Count;
+            ViewBag.Comment = data.Comment.Count;
+
+
+
+            var model = (from a in DB.Comment where a.ImageID == newid select a).ToList();
+
+            for (int i = 0; i < model.Count; i++)
+            {
+                Comments CList = new Comments()
+                {
+                    CommentText = model[i].CommentText,
+                    VoteComment = model[i].VoteComment,
+                    ImgID = model[i].ImageID,
+                    CommentUsrID = model[i].UserID,
+                    UserName = model[i].UserTable.UserName
+                };
+
+                Comment.Add(CList);
+
+
+
+            }
+
+
+
+            return View(Comment);
         }
         public class JsonMessageResult
         {

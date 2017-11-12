@@ -1,4 +1,5 @@
 ﻿$(function () {
+
     
     $('.button-checkbox').each(function () {
 
@@ -66,7 +67,15 @@
         init();
     });
 });
-$("#Upload").click(function () {
-    window.location = "/Account/Hot";
 
-})
+$(document).ready(function () {
+
+    $("#troll").click(function () {
+
+        window.open("http://memeful.com/generator");
+    });
+
+
+
+
+});

@@ -7,9 +7,6 @@
 
 <link href="~/CSS/Article.css" rel="stylesheet" />
 
-
-<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-
 <script>
 
     $(document).ready(function () {
@@ -41,7 +38,7 @@
             $('#urlModal').modal();
         });
 
-        $("#hot").addClass("active");
+        $("#trending").addClass("active");
 
         document.getElementById("fileload").onchange = function () {
 
@@ -61,16 +58,15 @@
         };
 
 
-
         $("[id$='Upvote']").click(function () {
 
             var id = $(this).find("span").attr('id');
-           
+
             $.ajax({
                 url: '/Account/UpVote/',
                 type: 'POST',
                 dataType: 'json',
-                data: {id: id},
+                data: { id: id },
                 success: function (data) {
                     if (data == "1") {
 
@@ -108,6 +104,7 @@
 
 
 
+
     });
 
 
@@ -116,7 +113,7 @@
 
 
 
-@foreach (var item in Model) 
+@foreach (var item in Model)
 {
 
 
@@ -128,14 +125,15 @@
             <div>
                 <a href="/Account/Comment?id=@item.ImgID" id="@item.ImgID" style="color:grey"><span id="VoteNumber">@item.VoteNumber</span> Points</a>
 
-                <a href="/Account/Comment?id=@item.ImgID" id="" style="color:grey"><span>@item.CommentNumber</span> Comments</a>
+
+                <a href="/Account/Comment?id=@item.ImgID" style="color:grey"><span>@item.CommentNumber</span> Comments</a>
                 <div class="tags">
-                    
-                        <button id="@item.ImgID Upvote"  type="button" class="btn btn-primary btn-lg btn3d"><span id="@item.ImgID" class="glyphicon glyphicon-arrow-up"></span></button>
-                    
-                    
-                        <button id="@item.ImgID Downvote" type="button" class="btn btn-danger btn-lg btn3d"><span id="@item.ImgID"  class="glyphicon glyphicon-arrow-down"></span></button>
-                    
+
+                    <button id="@item.ImgID Upvote" type="button" class="btn btn-primary btn-lg btn3d"><span id="@item.ImgID" class="glyphicon glyphicon-arrow-up"></span></button>
+
+
+                    <button id="@item.ImgID Downvote" type="button" class="btn btn-danger btn-lg btn3d"><span id="@item.ImgID" class="glyphicon glyphicon-arrow-down"></span></button>
+
 
 
                 </div>
@@ -145,4 +143,5 @@
     </div>
 
 }
+
 

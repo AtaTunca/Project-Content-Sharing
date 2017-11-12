@@ -4,17 +4,17 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-   
-    <!-- ----------REGISTER----------------  -->
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 
-                @using (Html.BeginForm("Register", "Home", FormMethod.Post))
-                {
+<!-- ----------REGISTER----------------  -->
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 
-                    @Html.AntiForgeryToken()
-                    <h2>Please Sign Up <small>It's free.</small></h2>
+            @using (Html.BeginForm("Register", "Home", FormMethod.Post))
+            {
+
+                @Html.AntiForgeryToken()
+                <h2>Please Sign Up <small>It's free.</small></h2>
                     <hr class="colorgraph">
                     <div class="row">
                         <div class="col-md-12">
@@ -28,7 +28,7 @@
                         </div>
 
                     </div>
-                    
+
                     <div class="form-group">
 
                         @Html.TextBox("EmailAddress", null, new { @class = "form-control input-lg", @placeholder = "eposta adresi" })
@@ -45,18 +45,18 @@
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6">
                             <div class="form-group">
-                               
+
                                 @Html.Password("PasswordAgain", null, new { @class = "form-control input-lg", @placeholder = "şifre tekrar" })
-                              
+
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-sm-3 col-md-3">
                             <span class="button-checkbox">
-                                
+
                                 <button type="button" class="btn" data-color="info" tabindex="7"> I Agree</button>
-                                @Html.CheckBox("TermsAndConditions", false, new { @class="hidden" })
+                                @Html.CheckBox("TermsAndConditions", false, new { @class = "hidden" })
 
 
                             </span>
@@ -70,41 +70,41 @@
                     <div class="row">
 
                         <div class="col-xs-12 col-md-6">
-                        <input class="btn btn-primary btn-block btn-lg" type="submit" name="name" value="Kayıt Ol" />
-                       
+                            <input class="btn btn-primary btn-block btn-lg" type="submit" name="name" value="Kayıt Ol" />
+
                         </div>
 
                     </div>
-                }
+            }
 
 
-            </div>
         </div>
-        <!-- Modal -->
-        <div class="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title" id="myModalLabel">Terms & Conditions</h4>
-                    </div>
-                    <div class="modal-body">
-
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel libero vel risus varius sodales. Mauris diam massa, mattis quis porttitor vel, egestas nec nisi. Phasellus auctor ultricies enim vitae venenatis. Aliquam consequat vel neque a rutrum. Duis auctor, tellus at sodales condimentum,
-                            ex magna porta libero, varius ultricies sem dui nec lectus. Quisque molestie, erat vitae pellentesque mattis, magna metus consequat dui,
-                            nec suscipit ante urna at erat. Proin purus sapien, commodo sed fringilla ac, pulvinar eget dolor. Phasellus est tellus, pretium at mauris a, pretium interdum justo. Quisque vel neque iaculis, finibus justo sed, imperdiet quam. Aenean semper egestas nisl quis volutpat. Aliquam vitae neque velit.
-                        </p>
-                        <p>
-                            Integer iaculis magna at convallis suscipit. Quisque eu sodales felis, a fringilla libero. Nunc dapibus urna porta, faucibus tellus ac,
-                            fermentum diam. Vestibulum placerat ipsum id felis suscipit vulputate. Proin pulvinar, augue at placerat lobortis, sapien lorem dictum erat, et dapibus lorem est at urna. Vivamus vel nulla accumsan, congue lectus sit amet, cursus leo. Suspendisse sagittis, metus a tincidunt commodo, purus quam ullamcorper neque, vitae hendrerit orci dolor a urna. Mauris rutrum lacus vel augue laoreet, ac mollis justo volutpat.
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">I Agree</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
     </div>
-    <!-- ----------REGISTER---------------  -->
+    <!-- Modal -->
+    <div class="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Terms & Conditions</h4>
+                </div>
+                <div class="modal-body">
+
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel libero vel risus varius sodales. Mauris diam massa, mattis quis porttitor vel, egestas nec nisi. Phasellus auctor ultricies enim vitae venenatis. Aliquam consequat vel neque a rutrum. Duis auctor, tellus at sodales condimentum,
+                        ex magna porta libero, varius ultricies sem dui nec lectus. Quisque molestie, erat vitae pellentesque mattis, magna metus consequat dui,
+                        nec suscipit ante urna at erat. Proin purus sapien, commodo sed fringilla ac, pulvinar eget dolor. Phasellus est tellus, pretium at mauris a, pretium interdum justo. Quisque vel neque iaculis, finibus justo sed, imperdiet quam. Aenean semper egestas nisl quis volutpat. Aliquam vitae neque velit.
+                    </p>
+                    <p>
+                        Integer iaculis magna at convallis suscipit. Quisque eu sodales felis, a fringilla libero. Nunc dapibus urna porta, faucibus tellus ac,
+                        fermentum diam. Vestibulum placerat ipsum id felis suscipit vulputate. Proin pulvinar, augue at placerat lobortis, sapien lorem dictum erat, et dapibus lorem est at urna. Vivamus vel nulla accumsan, congue lectus sit amet, cursus leo. Suspendisse sagittis, metus a tincidunt commodo, purus quam ullamcorper neque, vitae hendrerit orci dolor a urna. Mauris rutrum lacus vel augue laoreet, ac mollis justo volutpat.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">I Agree</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+<!-- ----------REGISTER---------------  -->

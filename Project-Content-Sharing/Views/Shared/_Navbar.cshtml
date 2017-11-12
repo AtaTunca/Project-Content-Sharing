@@ -16,21 +16,19 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Ateşli</a></li>
-                <li><a href="#">Güzel</a></li>
-                <li><a href="#">Taze</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bişeyler <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
+                @if (Request.IsAuthenticated)
+                {
+                    <li class="" id="hot"><a href="/Account/Hot">Hot</a></li>
+                    <li class="" id="trending"><a href="/Account/Trending">Trending</a></li>
+                    <li class="" id="fresh"><a href="/Account/Fresh">Fresh</a></li>
+                }
+                else
+                {
+                    <li class="" id="hot"><a href="/Home/Hot">Hot</a></li>
+                    <li class="" id="trending"><a href="/Home/Trending">Trending</a></li>
+                    <li class="" id="fresh"><a href="/Home/Fresh">Fresh</a></li>
+                }
+                
             </ul>
 
             @if (Request.IsAuthenticated)
@@ -50,8 +48,8 @@
                     </li>
 
                         <li>
-                            <button  id="Upload" type="button" class="btn btn-primary btn3d">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> &nbsp;&nbsp;Yükle
+                            <button  id="Upload" type="button" class="btn btn-primary btn3d"  data-toggle="modal" data-target="#myModal">
+                                <span class="glyphicon glyphicon-plus"  aria-hidden="true"></span> &nbsp;&nbsp;Yükle
                             </button>
                        
                     </li>
@@ -70,12 +68,6 @@
                             <li>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        Login via
-                                        <div class="social-buttons">
-                                            <a href="#" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
-                                            <a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
-                                        </div>
-                                        or
 
 
                                         @using (Html.BeginForm("Login", "Home", FormMethod.Post))
@@ -101,11 +93,6 @@
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"> keep me logged-in
-                                                </label>
                                             </div>
                                         }
                                     </div>

@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+
+@foreach (var item in Model)
+{
+
+
+    <div style="position:center" class="container">
+        <div class="span6">
+            <div class="clear"></div>
+            <h3>@item.Description</h3>
+            <img style="height:500px; width:500px;" src="@item.Route" />
+            <div>
+                <a href="#" style="color:grey"><span>@item.VoteNumber</span> Points</a>
+
+                <a href="#" style="color:grey"><span>@item.CommentNumber</span> Comments</a>
+                <div class="tags">
+                    <button id="UDVote" type="button" class="btn btn-primary btn-lg btn3d"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button id="UDVote" type="button" class="btn btn-danger btn-lg btn3d"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>User Comment adsfdsaf</h3>
+        </div><!-- /col-sm-12 -->
+    </div><!-- /row -->
+    <div class="row">
+        <div class="col-sm-1">
+            <div class="thumbnail">
+                <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+            </div><!-- /thumbnail -->
+        </div><!-- /col-sm-1 -->
+        <div class="col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>myusername</strong> <span class="text-muted">commented 5 days ago</span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div><!-- /panel-body -->
+            </div><!-- /panel panel-default -->
+        </div><!-- /col-sm-5 -->
+    </div><!-- /row -->
+</div><!-- /container -->

@@ -5,6 +5,67 @@
 }
 
 
+<script>
+
+    $(document).ready(function () {
+
+
+        $("#files").click(function () {
+
+            $('#myModal').modal('hide');
+            $('#betaModal').modal();
+
+
+
+        });
+
+
+        $('#back').click(function () {
+            $('#urlModal').modal('hide');
+            $('#myModal').modal();
+        });
+
+        $("#troll").click(function () {
+            $('#myModal').modal('hide');
+            window.open("http://memeful.com/generator");
+        });
+
+
+        $('#url').click(function () {
+            $('#myModal').modal('hide');
+            $('#urlModal').modal();
+        });
+
+
+        document.getElementById("fileload").onchange = function () {
+
+            var reader = new FileReader();
+
+
+
+            reader.onload = function (e) {
+                // get loaded data and render thumbnail.
+                document.getElementById("image").src = e.target.result;
+
+            };
+
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
+
+
+
+
+
+
+
+
+
+        };
+    });
+
+
+</script>
+
 
 
 

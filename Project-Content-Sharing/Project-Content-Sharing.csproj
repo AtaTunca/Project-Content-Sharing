@@ -103,7 +103,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="CSS\Article.css" />
     <Content Include="CSS\button.css" />
+    <Content Include="CSS\CommentPost.css" />
     <Content Include="CSS\Navbar.css" />
     <Content Include="CSS\Register.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -116,26 +118,31 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Images\img_lights.jpg" />
     <Content Include="JSFolder\RegisterJS.js" />
-    <EntityDeploy Include="Models\DBModel.edmx">
+    <EntityDeploy Include="Models\Content-Sharing.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DBModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>Content-Sharing.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\DBModel.edmx.diagram">
-      <DependentUpon>DBModel.edmx</DependentUpon>
+    <Content Include="Models\Content-Sharing.edmx.diagram">
+      <DependentUpon>Content-Sharing.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
-    <Content Include="Models\DBModel.Context.tt">
+    <Content Include="Models\Content-Sharing.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DBModel.edmx</DependentUpon>
-      <LastGenOutput>DBModel.Context.cs</LastGenOutput>
+      <DependentUpon>Content-Sharing.edmx</DependentUpon>
+      <LastGenOutput>Content-Sharing.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\DBModel.tt">
+    <Content Include="Models\Content-Sharing.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DBModel.edmx</DependentUpon>
-      <LastGenOutput>DBModel.cs</LastGenOutput>
+      <DependentUpon>Content-Sharing.edmx</DependentUpon>
+      <LastGenOutput>Content-Sharing.cs</LastGenOutput>
     </Content>
     <Content Include="Pictures\BrainParty_LogoForBlog.png" />
+    <Content Include="Pictures\icons8-link.png" />
+    <Content Include="Pictures\icons8-pictures-folder %282%29.png" />
+    <Content Include="Pictures\icons8-pictures-folder.png" />
+    <Content Include="Pictures\troll-face-meme-smiley-emoticon.gif" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -146,44 +153,51 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Comments.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Image.cs" />
+    <Compile Include="ImageDBList.cs" />
     <Compile Include="Models\Comment.cs">
-      <DependentUpon>DBModel.tt</DependentUpon>
+      <DependentUpon>Content-Sharing.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DBModel.Context.cs">
+    <Compile Include="Models\Content-Sharing.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DBModel.Context.tt</DependentUpon>
+      <DependentUpon>Content-Sharing.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DBModel.cs">
+    <Compile Include="Models\Content-Sharing.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DBModel.tt</DependentUpon>
+      <DependentUpon>Content-Sharing.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DBModel.Designer.cs">
+    <Compile Include="Models\Content-Sharing.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DBModel.edmx</DependentUpon>
+      <DependentUpon>Content-Sharing.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ImgDB.cs">
-      <DependentUpon>DBModel.tt</DependentUpon>
+      <DependentUpon>Content-Sharing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ImgVote.cs">
+      <DependentUpon>Content-Sharing.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>DBModel.tt</DependentUpon>
+      <DependentUpon>Content-Sharing.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserTable.cs">
-      <DependentUpon>DBModel.tt</DependentUpon>
+      <DependentUpon>Content-Sharing.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\MailService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\web.config" />
+    <Content Include="Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="packages.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Shared\_LayoutMain.cshtml" />
@@ -193,10 +207,20 @@
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\ResetPassword.cshtml" />
     <Content Include="Views\Home\PasswordReset.cshtml" />
-    <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Hot.cshtml" />
     <Content Include="Views\Account\Settings.cshtml" />
     <Content Include="Views\Account\Password.cshtml" />
+    <Content Include="Views\Shared\_MainModal.cshtml" />
+    <Content Include="Views\Shared\_ModalUrl.cshtml" />
+    <Content Include="Views\Shared\_UploadModal.cshtml" />
+    <Content Include="Views\Account\Trending.cshtml" />
+    <Content Include="Views\Account\Fresh.cshtml" />
+    <Content Include="Views\Home\Hot.cshtml" />
+    <Content Include="Views\Home\Trending.cshtml" />
+    <Content Include="Views\Home\Fresh.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\Comment.cshtml" />
+    <Content Include="Views\Home\Comment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -205,8 +229,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
