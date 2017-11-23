@@ -307,8 +307,7 @@ namespace Project_Content_Sharing.Controllers
 
                 ViewBag.EmailAdress = user.EmailAddress;
                 ViewBag.UserName = user.UserName;
-
-
+                
             }
 
             return View();
